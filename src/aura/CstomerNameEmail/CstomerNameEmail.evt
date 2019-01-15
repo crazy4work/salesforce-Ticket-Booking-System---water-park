@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="CusId" type="Id"/>
+    <aura:attribute name="CustEmail" type="String"/>
+</aura:event>

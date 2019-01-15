@@ -1,0 +1,68 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="getTicketDetails" >
+	<aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="TicketId" type="String" />
+    <aura:attribute name="children" type="integer"/>
+   <aura:attribute name="TicketList" type="List"/>
+    <aura:attribute name="adult" type="integer"/>
+     <aura:attribute name="showCTicketDetail" type="Boolean"/>
+    <aura:attribute name="getTicketDetail" type="Boolean"/>
+    <aura:attribute name="senior" type="integer"/>
+    
+    <!--Ticket Search Layout-->
+    <lightning:layout class="slds-box slds-box_small slds-m-around_xx-large slds-align_absolute-center" 
+                      horizontalAlign="center">
+        
+        <lightning:layoutItem padding="horizontal-medium">
+            <lightning:input type="text" name="Id" required="true" 
+                             value="{!v.TicketId}" 
+                             label="Enter Ticket Id" />
+        </lightning:layoutItem>
+        <br/>
+        <lightning:layoutItem class="slds-p-top_large">
+            <lightning:button variant="brand" label="search" onclick="{!c.searchTicket}"/>
+        </lightning:layoutItem>
+     </lightning:layout>
+ <!--Ticket Search Layout Ends-->  
+    
+    <!--Modal Starts-->
+ <div class="slds-m-around_xx-large">
+      <aura:if isTrue="{!v.isOpen}">
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header" style="background-color:#1589ee;color:white;">
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Ticket Deatails</h2>
+      </header>
+        <form>
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+      <aura:iteration items="{!v.TicketList}" var="lis">
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Children:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!lis.Number_Of_Child__c}"/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Adult:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!lis.Number_Of_Adult__c}"/>
+       <br/>
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Senior:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!lis.Number_Of_Senior__c}"/>
+        <br/>
+          <span style="margin-right:10px;font-weight:bold;">Total Tickets:</span> <lightning:formattedNumber value="{!lis.Total_Tickets__c}"/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Final Price:</span> <lightning:formattedNumber value="{!lis.Total_Amount__c}"/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Payment Status:</span> <lightning:formattedText value="{!lis.Payment_Status__c}"/>
+               <br/>
+            <span style="margin-right:10px;font-weight:bold;">Booking Status:</span> <lightning:formattedText value="{!lis.Booking_Status__c}"/>
+          <br/>
+          </aura:iteration>
+      </div>
+             </form>
+      <footer class="slds-modal__footer">
+          
+        <lightning:button class="slds-button slds-button_neutral" onclick="{!c.closeModel}">Cancel</lightning:button>
+        <lightning:button class="slds-button slds-button_brand" onclick="{!c.paymentDone}">Paid?</lightning:button>
+     
+     </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:if>
+</div>   
+ <!--Modal Ends-->
+
+</aura:component>

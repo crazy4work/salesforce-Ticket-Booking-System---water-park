@@ -1,0 +1,77 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="CustomerRegistrationHandling">
+    <aura:attribute name="Email" type="String" />
+    <aura:attribute name="Customer" type="Customer__c[]"/>
+    <aura:attribute name="Customer_col" type="List"/>
+    <aura:attribute name="showCustomersDetail" type="Boolean"/>
+    <aura:attribute name="getNewCustomerDetail" type="Boolean"/>
+    
+    <!--for passing email, id to ticket component-->
+    <aura:registerEvent name="CstomerNameEmail" type="c:CstomerNameEmail"/>
+    
+    <!--for navigating to RegisterNewCustomer-->
+    <!--<aura:registerEvent name="navigateToRegNewCusComponent" type="c:navigateToRegNewCusComponent"/>-->
+    
+    <lightning:layout class="slds-box slds-box_small slds-m-around_xx-large slds-align_absolute-center" 
+                      horizontalAlign="center">
+        
+        <lightning:layoutItem padding="horizontal-medium">
+            <lightning:input type="email" name="email" required="true" 
+                             value="{!v.Email}" 
+                             label="Enter Email To Search with" />
+        </lightning:layoutItem>
+        <lightning:layoutItem class="slds-p-top_large">
+            <lightning:button variant="brand" label="search" onclick="{!c.searchCustomer}"/>
+        </lightning:layoutItem>
+        
+     </lightning:layout>
+    <aura:if isTrue="{!v.showCustomersDetail}">
+    <lightning:layout horizontalAlign="center">
+            <lightning:layoutItem padding="around-small">
+            <div aria-labelledby="Matching Customer" class="slds-box slds-box_small">
+                
+                    <!--<lightning:datatable 
+                                         keyField="id" 
+                                         data="{!v.Customer.Name}" 
+                                         columns="{!v.Customer_col}" 
+                                       hideCheckboxColumn="true"/>-->
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <tr class="slds-line-height_reset">
+                    <th class="slds-text-title_caps" scope="col">Name</th>
+                    <th class="slds-text-title_caps" scope="col">Email</th>
+                    <th class="slds-text-title_caps" scope="col">Phone</th>
+                    <th class="slds-text-title_caps" scope="col">Address</th></tr>
+                <aura:iteration items="{!v.Customer}" var="cus">
+                    <tr class="slds-hint-parent">
+                        <td >{!cus.Name}</td>
+                    	<td>{!cus.Customer_Email__c}</td>
+                    	<td>{!cus.Customer_Phone__c}</td>
+                    	<td>{!cus.Customer_Address__c}</td>
+                    </tr>
+                </aura:iteration>
+                </table>
+            </div>
+        </lightning:layoutItem>
+       </lightning:layout>
+        
+       </aura:if>
+        
+        <aura:if isTrue="{!v.getNewCustomerDetail}">
+    	<lightning:layout horizontalAlign="center">
+            	<lightning:layoutItem>
+                    <form>
+            		<div id="reg-false" class="slds-box slds-box_small" padding="around-medium">
+                        <strong>No Customer Found With Matching Email</strong><br/>
+                		<lightning:button variant="brand" label="Quick Register Customer" onclick="{!c.newCustomer}"/> 
+                		<!--onclick="{!c.registerCustomer}"-->
+            		</div>
+                    </form>
+                    <div style="display:none" id="registeration">
+                        <c:RegisterNewCustomer/>
+                    </div>
+        		</lightning:layoutItem>
+                   
+       </lightning:layout>
+       </aura:if>
+    
+	
+</aura:component>

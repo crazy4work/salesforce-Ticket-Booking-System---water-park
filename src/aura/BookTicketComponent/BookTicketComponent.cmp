@@ -1,0 +1,74 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="BookTicketHandling">
+    <aura:handler event="c:CstomerNameEmail" action="{!c.handleCstomerNameEmail}"/>
+
+    
+    <aura:attribute name="ticket" type="Ticket__c" 
+                    default="{'sobjectType':'Ticket__c',
+                             'Number_Of_Adult__c':0,
+                             'Number_Of_Child__c':0,
+                             'Number_Of_Senior__c':0}"/>
+      <aura:attribute name="offer" type="Offer__c" 
+                    default="{'sobjectType':'Offer__c'}"/>
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="total" type="integer"/>
+    <aura:attribute name="original_Price" type="decimal"/>
+    <aura:attribute name="Final_Price" type="decimal"/>
+    <aura:attribute name="Discount_Price" type="decimal"/>
+    <aura:attribute name="tcktInserted" type="string"/>
+    
+    <div>
+        <form>
+    <lightning:layout class="slds-m-around_xx-large  slds-align_absolute-center slds-card">
+        <lightning:card title="Ticket" iconName="custom:custom41">    
+           <lightning:input label="Number of Children" type="number" value="{!v.ticket.Number_Of_Child__c}" step="1"></lightning:input>
+          <lightning:input label="Number of Adult" type="number" value="{!v.ticket.Number_Of_Adult__c}" step="1"></lightning:input>
+            <lightning:input label="Number of Senior" type="number" value="{!v.ticket.Number_Of_Senior__c}" step="1"></lightning:input>
+   			<lightning:button class="slds-button slds-button_brand slds-m-around_xx-large"  onclick="{!c.openModel}">Next</lightning:button>
+        </lightning:card>
+        </lightning:layout>
+             </form>
+     </div>
+<!--Modal Starts-->
+ <div class="slds-m-around_xx-large">
+      <aura:if isTrue="{!v.isOpen}">
+  <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container">
+      <header class="slds-modal__header" style="background-color:#1589ee;color:white;">
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Ticket Confirmation</h2>
+      </header>
+        <form>
+      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+     <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Children:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!v.ticket.Number_Of_Child__c}"/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Adult:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!v.ticket.Number_Of_Adult__c}"/>
+       <br/>
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket Of Senior:</span> <lightning:formattedNumber label="Total Tickets Booked" value="{!v.ticket.Number_Of_Senior__c}"/>
+          <hr/>
+          <span style="margin-right:10px;font-weight:bold;">Total Ticket:</span> <lightning:formattedNumber value="{!v.total}"/>
+          <br/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Original Price:</span> <lightning:formattedNumber class="original_Price" value="{!v.original_Price}"/>
+          <br/>
+          <span style="margin-right:10px;font-weight:bold;">Final Price:</span> <lightning:formattedNumber value="{!v.Final_Price}"/>
+           <div style="display:inline;float:right;">
+          <span style="margin-right:10px;font-weight:bold;">Discounted Price:</span> <lightning:formattedNumber value="{!v.Discount_Price}"/>
+          </div>
+               <br/>
+      </div>
+             </form>
+      <footer class="slds-modal__footer">
+          
+        <lightning:button class="slds-button slds-button_neutral" onclick="{!c.closeModel}">Cancel</lightning:button>
+        <lightning:button class="slds-button slds-button_brand" onclick="{!c.BookTicket}">Book</lightning:button>
+     
+     </footer>
+    </div>
+  </section>
+  <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:if>
+</div>  
+    <div class='slds-m-around_xx-large  slds-align_absolute-center' style="font-size:24px;">
+        {!v.tcktInserted}
+    </div>
+ <!--Modal Ends-->       
+</aura:component>

@@ -1,0 +1,45 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" controller="newCusReg">
+    <aura:attribute name="insertionstate" type="String"/>
+    
+    <!--<aura:attribute name="newCustomer" type="Customer__c[]"/>-->
+    <aura:attribute name="simpleNewCustomer" type="Customer__c" 
+                    default="{'sobjectType':'Customer__c',
+                             'Name':'',
+                             'Customer_DOB__c':''}"/>
+    <aura:attribute name="newCustomerError" type="String"/>
+    
+    <!-- handling navigation to this component-->
+    <!--<aura:handler event="c:navigateToRegNewCusComponent" action="{!handleNavigation}"/>-->
+    
+    
+    <aura:registerEvent name="CstomerNameEmail" type="c:CstomerNameEmail"/>
+    
+
+
+    
+        <!--<aura:pageBlock>-->
+        
+         <div aria-labelledby="Register New Customer" class="slds-box slds-theme_default slds-p-bottom_large slds-p-left_large" id="register-form" style="width:500px">
+             
+                <form>
+                    <lightning:input name="name" aura:id="CustomerField" label="Name" value="{!v.simpleNewCustomer.Name}" />
+                    <lightning:input name="email" aura:id="CustomerField" label="Email" type="email" value="{!v.simpleNewCustomer.Customer_Email__c}" />
+                    <lightning:input name="phone" aura:id="CustomerField" label="Phone" type="phone" value="{!v.simpleNewCustomer.Customer_Phone__c}" />
+                    <lightning:input name="DOB" aura:id="CustomerField" label="Date Of Birth" type="date" value="{!v.simpleNewCustomer.Customer_DOB__c}" />
+                    <lightning:select name="Gender" aura:id="CustomerField" label="Gender" value="{!v.simpleNewCustomer.Customer_Gender__c}" >
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </lightning:select>
+                    <lightning:input name="Adhar" aura:id="CustomerField" label="Adhar Id" value="{!v.simpleNewCustomer.Customer_AADHAR_ID__c}" />
+                    <lightning:input name="Address" aura:id="CustomerField" label="Address" value="{!v.simpleNewCustomer.Customer_Address__c}" />
+                
+             
+             		<lightning:button class="slds-m-around_xx-large slds-m-horizontal_xx-large" variant="brand" label="Confirm" onclick="{!c.createRecord}"/>
+              </form>
+             
+         </div>
+        
+    <lightning:formattedText style="font-size:1.75rem;" value="{!v.insertionstate}"/>
+
+    
+</aura:component>
